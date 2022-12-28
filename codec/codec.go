@@ -1,0 +1,104 @@
+package codec
+
+import (
+	"bytes"
+	"encoding/binary"
+	errs "ribin-server/error"
+)
+
+type Codec interface {
+	Encode([]byte, MsgType) ([]byte, error)
+	Decode([]byte) (*Frame, error)
+}
+
+type MsgType int32
+type DefaultCodec struct{}
+
+const (
+	RPC          MsgType = 1
+	Broadcast    MsgType = 2
+	FrameHeadLen         = 6
+)
+
+var codecMap = make(map[string]Codec)
+var defaultCodec = NewCodec()
+var NewCodec = func() Codec {
+	return &DefaultCodec{}
+}
+
+type FrameHeader struct {
+	MsgTypeStart uint8  // start of frame
+	Length       uint32 // total packet length
+	MsgTypeEnd   uint8  // end of frame
+}
+
+type Frame struct {
+	Header  *FrameHeader // header of Frame
+	Payload []byte       // serialized data
+}
+
+func GetCodec(name string) Codec {
+	if codec, ok := codecMap[name]; ok {
+		return codec
+	}
+	return defaultCodec
+}
+
+func RegisterCodec(name string, codec Codec) {
+	if codecMap == nil {
+		codecMap = make(map[string]Codec)
+	}
+	codecMap[name] = codec
+}
+
+func (c *DefaultCodec) Encode(data []byte, msgType MsgType) ([]byte, error) {
+
+	totalLen := FrameHeadLen + len(data)
+	buffer := bytes.NewBuffer(make([]byte, 0, totalLen))
+
+	var msgTypeStart uint8 = 0x02
+	var msgTypeEnd uint8 = 0x03
+	if msgType == Broadcast {
+		msgTypeStart = 0x28
+		msgTypeEnd = 0x29
+	}
+	frame := FrameHeader{
+		MsgTypeStart: msgTypeStart,
+		Length:       uint32(len(data)),
+		MsgTypeEnd:   msgTypeEnd,
+	}
+
+	if err := binary.Write(buffer, binary.BigEndian, frame.MsgTypeStart); err != nil {
+		return nil, err
+	}
+
+	if err := binary.Write(buffer, binary.BigEndian, frame.Length); err != nil {
+		return nil, err
+	}
+
+	if err := binary.Write(buffer, binary.BigEndian, data); err != nil {
+		return nil, err
+	}
+
+	if err := binary.Write(buffer, binary.BigEndian, frame.MsgTypeEnd); err != nil {
+		return nil, err
+	}
+
+	return buffer.Bytes(), nil
+}
+
+func (c *DefaultCodec) Decode(frameBytes []byte) (*Frame, error) {
+	dataLen := binary.BigEndian.Uint32(frameBytes[1:5])
+	if uint32(len(frameBytes)) < dataLen+5 {
+		return nil, errs.MsgError
+	}
+	frame := &Frame{
+		Header: &FrameHeader{
+			MsgTypeStart: frameBytes[0],
+			Length:       dataLen,
+			MsgTypeEnd:   frameBytes[len(frameBytes)-1],
+		},
+		Payload: frameBytes[5 : 5+dataLen],
+	}
+	return frame, nil
+}
