@@ -3,7 +3,8 @@ package codec
 import (
 	"bytes"
 	"encoding/binary"
-	errs "ribin-server/error"
+
+	errs "github.com/ribincao/ribin-game-server/error"
 )
 
 type Codec interface {

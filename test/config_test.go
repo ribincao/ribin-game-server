@@ -2,8 +2,9 @@ package test
 
 import (
 	"fmt"
-	config "ribin-server/config"
 	"testing"
+
+	config "github.com/ribincao/ribin-game-server/config"
 )
 
 func TestConfig(t *testing.T) {

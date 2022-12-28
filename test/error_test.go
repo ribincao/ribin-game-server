@@ -2,8 +2,9 @@ package test
 
 import (
 	"fmt"
-	errs "ribin-server/error"
 	"testing"
+
+	errs "github.com/ribincao/ribin-game-server/error"
 )
 
 func TestError(t *testing.T) {
