@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	config "ribin-server/config"
+	config "github.com/ribincao/ribin-game-server/config"
 
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"

@@ -2,8 +2,9 @@ package test
 
 import (
 	"fmt"
-	codec "ribin-server/codec"
 	"testing"
+
+	codec "github.com/ribincao/ribin-game-server/codec"
 
 	"github.com/ribincao/ribin-protocol/base"
 	"google.golang.org/protobuf/proto"

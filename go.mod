@@ -1,4 +1,4 @@
-module ribin-server
+module github.com/ribincao/ribin-game-server
 
 go 1.19
 

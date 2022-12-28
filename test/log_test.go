@@ -1,9 +1,10 @@
 package test
 
 import (
-	config "ribin-server/config"
-	logger "ribin-server/logger"
 	"testing"
+
+	config "github.com/ribincao/ribin-game-server/config"
+	logger "github.com/ribincao/ribin-game-server/logger"
 
 	"go.uber.org/zap"
 )
