@@ -5,6 +5,7 @@ import "fmt"
 const (
 	OK              = 0
 	ConfigErrorCode = 100
+	MsgErrorCode    = 200
 )
 
 const (
@@ -14,6 +15,7 @@ const (
 
 var (
 	ConfigError = NewFrameworkError(ConfigErrorCode, "config error")
+	MsgError    = NewFrameworkError(MsgErrorCode, "msg error")
 )
 
 type Error struct {
