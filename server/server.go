@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"math/rand"
 	"net"
-	"net/http"
 	"time"
 )
 
@@ -60,21 +59,17 @@ func NewServer(serverType ServerType, opts ...ServerOption) Server {
 }
 
 type ServerOptions struct {
-	address           string        // listening address, e.g. :( ip://127.0.0.1:8080、 dns://www.google.com)
-	network           string        // network type, e.g. : tcp、udp
-	serializationType string        // serialization type, default: proto
-	timeout           time.Duration // timeout
-	listener          net.Listener  // net listener
-	httpWriter        http.ResponseWriter
-	httpRequest       *http.Request
+	address string // listening address, e.g. :( ip://127.0.0.1:8080、 dns://www.google.com)
+	// network           string        // network type, e.g. : tcp、udp
+	// serializationType string        // serialization type, default: proto
+	timeout  time.Duration // timeout
+	listener net.Listener  // net listener
+	// httpWriter        http.ResponseWriter
+	// httpRequest       *http.Request
 }
 
 type ServerOption func(*ServerOptions)
 
-// OpenFreePort opens free UDP port.
-// This example does not actually use UDP ports,
-// but to avoid port collisions with the HTTP server,
-// it binds the same number of UDP port in advance.
 func OpenFreePort(portBase int, num int) (net.Listener, int, error) {
 	random := rand.Intn(num)
 	for i := random; i < random+num; i++ {
