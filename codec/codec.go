@@ -13,7 +13,7 @@ type Codec interface {
 }
 
 type MsgType int32
-type DefaultCodec struct{}
+type defaultCodec struct{}
 
 const (
 	RPC          MsgType = 1
@@ -22,9 +22,9 @@ const (
 )
 
 var codecMap = make(map[string]Codec)
-var defaultCodec = NewCodec()
+var DefaultCodec = NewCodec()
 var NewCodec = func() Codec {
-	return &DefaultCodec{}
+	return &defaultCodec{}
 }
 
 type FrameHeader struct {
@@ -42,7 +42,7 @@ func GetCodec(name string) Codec {
 	if codec, ok := codecMap[name]; ok {
 		return codec
 	}
-	return defaultCodec
+	return DefaultCodec
 }
 
 func RegisterCodec(name string, codec Codec) {
@@ -55,7 +55,7 @@ func RegisterCodec(name string, codec Codec) {
 // |   1   |   4   |  ... |  1  |
 // |   X   |  XXXX |  ... |  X  |
 // | START |  LEN  | DATA | END |
-func (c *DefaultCodec) Encode(data []byte, msgType MsgType) ([]byte, error) {
+func (c *defaultCodec) Encode(data []byte, msgType MsgType) ([]byte, error) {
 
 	totalLen := FrameHeadLen + len(data)
 	buffer := bytes.NewBuffer(make([]byte, 0, totalLen))
@@ -91,7 +91,7 @@ func (c *DefaultCodec) Encode(data []byte, msgType MsgType) ([]byte, error) {
 	return buffer.Bytes(), nil
 }
 
-func (c *DefaultCodec) Decode(frameBytes []byte) (*Frame, error) {
+func (c *defaultCodec) Decode(frameBytes []byte) (*Frame, error) {
 	dataLen := binary.BigEndian.Uint32(frameBytes[1:5])
 	if uint32(len(frameBytes)) < dataLen+5 {
 		return nil, errs.MsgError
