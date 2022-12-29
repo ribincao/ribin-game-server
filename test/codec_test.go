@@ -38,7 +38,7 @@ func TestCodecDecode(t *testing.T) {
 
 	frame, _ := c.Decode(buf)
 	out := &base.Test{}
-	err := codec.DefaultSerialization.Unmarshal(frame.Payload, out)
+	err := codec.DefaultSerialization.Unmarshal(frame.Data, out)
 	if err != nil {
 		fmt.Println("Serialization Error", err)
 		return
