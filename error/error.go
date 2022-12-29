@@ -7,6 +7,9 @@ const (
 	ConfigErrorCode     = 100
 	MsgErrorCode        = 200
 	ConnectionErrorCode = 300
+
+	RoomUnexistErrorCode     = 10000
+	PlayerNotInRoomErrorCode = 10001
 )
 
 const (
@@ -18,6 +21,8 @@ var (
 	ConfigError           = NewFrameworkError(ConfigErrorCode, "config error")
 	MsgError              = NewFrameworkError(MsgErrorCode, "msg error")
 	ConnectionClosedError = NewFrameworkError(ConnectionErrorCode, "connection closed")
+	RoomUnexistError      = New(RoomUnexistErrorCode, "room unexist")
+	PlayerNotInRoomError  = New(PlayerNotInRoomErrorCode, "player not in room")
 )
 
 type Error struct {
