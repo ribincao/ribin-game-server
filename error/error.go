@@ -3,9 +3,10 @@ package errs
 import "fmt"
 
 const (
-	OK              = 0
-	ConfigErrorCode = 100
-	MsgErrorCode    = 200
+	OK                  = 0
+	ConfigErrorCode     = 100
+	MsgErrorCode        = 200
+	ConnectionErrorCode = 300
 )
 
 const (
@@ -14,8 +15,9 @@ const (
 )
 
 var (
-	ConfigError = NewFrameworkError(ConfigErrorCode, "config error")
-	MsgError    = NewFrameworkError(MsgErrorCode, "msg error")
+	ConfigError           = NewFrameworkError(ConfigErrorCode, "config error")
+	MsgError              = NewFrameworkError(MsgErrorCode, "msg error")
+	ConnectionClosedError = NewFrameworkError(ConnectionErrorCode, "connection closed")
 )
 
 type Error struct {
