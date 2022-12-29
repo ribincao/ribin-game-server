@@ -3,7 +3,6 @@ module github.com/ribincao/ribin-game-server
 go 1.19
 
 require (
-	github.com/golang/protobuf v1.5.0
 	github.com/matoous/go-nanoid v1.5.0
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/ribincao/ribin-protocol v0.0.0-20221228125559-a71e1855400d
