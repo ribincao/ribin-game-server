@@ -34,8 +34,8 @@ type FrameHeader struct {
 }
 
 type Frame struct {
-	Header  *FrameHeader // header of Frame
-	Payload []byte       // serialized data
+	Header *FrameHeader // header of Frame
+	Data   []byte       // serialized data
 }
 
 func GetCodec(name string) Codec {
@@ -52,16 +52,19 @@ func RegisterCodec(name string, codec Codec) {
 	codecMap[name] = codec
 }
 
+// |   1   |   4   |  ... |  1  |
+// |   X   |  XXXX |  ... |  X  |
+// | START |  LEN  | DATA | END |
 func (c *DefaultCodec) Encode(data []byte, msgType MsgType) ([]byte, error) {
 
 	totalLen := FrameHeadLen + len(data)
 	buffer := bytes.NewBuffer(make([]byte, 0, totalLen))
 
-	var msgTypeStart uint8 = 0x02
-	var msgTypeEnd uint8 = 0x03
+	var msgTypeStart uint8 = 0x11
+	var msgTypeEnd uint8 = 0x12
 	if msgType == Broadcast {
-		msgTypeStart = 0x28
-		msgTypeEnd = 0x29
+		msgTypeStart = 0x21
+		msgTypeEnd = 0x22
 	}
 	frame := FrameHeader{
 		MsgTypeStart: msgTypeStart,
@@ -99,7 +102,7 @@ func (c *DefaultCodec) Decode(frameBytes []byte) (*Frame, error) {
 			Length:       dataLen,
 			MsgTypeEnd:   frameBytes[len(frameBytes)-1],
 		},
-		Payload: frameBytes[5 : 5+dataLen],
+		Data: frameBytes[5 : 5+dataLen],
 	}
 	return frame, nil
 }
