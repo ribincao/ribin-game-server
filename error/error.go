@@ -7,6 +7,7 @@ const (
 	ConfigErrorCode     = 100
 	MsgErrorCode        = 200
 	ConnectionErrorCode = 300
+	TimerErrorCode      = 400
 
 	RoomUnexistErrorCode     = 10000
 	PlayerNotInRoomErrorCode = 10001
@@ -21,8 +22,13 @@ var (
 	ConfigError           = NewFrameworkError(ConfigErrorCode, "config error")
 	MsgError              = NewFrameworkError(MsgErrorCode, "msg error")
 	ConnectionClosedError = NewFrameworkError(ConnectionErrorCode, "connection closed")
-	RoomUnexistError      = New(RoomUnexistErrorCode, "room unexist")
-	PlayerNotInRoomError  = New(PlayerNotInRoomErrorCode, "player not in room")
+	TimerTickError        = NewFrameworkError(TimerErrorCode, "invalid tick")
+	TimerBucketError      = NewFrameworkError(TimerErrorCode, "invalid bucketNum")
+	TimerTaskRepeatError  = NewFrameworkError(TimerErrorCode, "task repeat")
+	TimerTaskAddError     = NewFrameworkError(TimerErrorCode, "task add error")
+
+	RoomUnexistError     = New(RoomUnexistErrorCode, "room unexist")
+	PlayerNotInRoomError = New(PlayerNotInRoomErrorCode, "player not in room")
 )
 
 type Error struct {
