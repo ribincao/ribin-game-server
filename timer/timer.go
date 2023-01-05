@@ -155,31 +155,7 @@ func (tw *TimeWheel) handleTick() {
 	tw.currentIndex++
 }
 
-func (tw *TimeWheel) deleteTask(task *Task) {
-	idx := tw.bucketIndex[task.id]
-	delete(tw.bucketIndex, task.id)
-	delete(tw.buckets[idx], task.id)
-}
-
-func (tw *TimeWheel) AddTask(taskName string, delay time.Duration, callback func(), cronTask bool) error {
-	if _, ok := tw.tasks.Load(taskName); ok {
-		return errs.TimerTaskRepeatError
-	}
-	task := tw.putTask(delay, callback, cronTask, SYNC_MODE)
-	if task == nil {
-		tw.tasks.Delete(taskName)
-		return errs.TimerTaskAddError
-	}
-	tw.tasks.Store(taskName, task.id)
-	return nil
-}
-
-func (tw *TimeWheel) remove(task *Task) {
-	tw.Lock()
-	defer tw.Unlock()
-	tw.deleteTask(task)
-}
-
+// RemoveTask
 func (tw *TimeWheel) RemoveTask(taskName string) error {
 	tw.taskLock.Lock()
 	defer tw.taskLock.Unlock()
@@ -199,6 +175,32 @@ func (tw *TimeWheel) RemoveTask(taskName string) error {
 
 	tw.tasks.Delete(taskName)
 	tw.remove(task)
+	return nil
+}
+
+func (tw *TimeWheel) remove(task *Task) {
+	tw.Lock()
+	defer tw.Unlock()
+	tw.deleteTask(task)
+}
+
+func (tw *TimeWheel) deleteTask(task *Task) {
+	idx := tw.bucketIndex[task.id]
+	delete(tw.bucketIndex, task.id)
+	delete(tw.buckets[idx], task.id)
+}
+
+// AddTask
+func (tw *TimeWheel) AddTask(taskName string, delay time.Duration, callback func(), cronTask bool) error {
+	if _, ok := tw.tasks.Load(taskName); ok {
+		return errs.TimerTaskRepeatError
+	}
+	task := tw.putTask(delay, callback, cronTask, SYNC_MODE)
+	if task == nil {
+		tw.tasks.Delete(taskName)
+		return errs.TimerTaskAddError
+	}
+	tw.tasks.Store(taskName, task.id)
 	return nil
 }
 
