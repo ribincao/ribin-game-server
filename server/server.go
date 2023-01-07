@@ -14,6 +14,9 @@ type Server interface {
 	Close()
 	GetPort() string
 	GetOpt() *ServerOptions
+	SetConnConnectCallback(OnConnectFunc)
+	SetConnCloseCallback(OnCloseFunc)
+	SetHandler(Handler)
 }
 
 // ServerType is the type of server
