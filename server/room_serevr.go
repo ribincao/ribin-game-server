@@ -18,7 +18,7 @@ import (
 
 type OnCloseFunc func(conn *network.WrapConnection)
 type OnConnectFunc func(conn *network.WrapConnection) bool
-type Handler func(ctx context.Context, conn *network.WrapConnection, req *base.Test) (*base.Test, error)
+type Handler func(ctx context.Context, conn *network.WrapConnection, req *base.Client2ServerReq) (*base.Server2ClientRsp, error)
 
 var upgrader = websocket.Upgrader{}
 
@@ -106,7 +106,7 @@ func (s *roomServer) handleFrame(conn *network.WrapConnection, frame *codec.Fram
 	ctx, cancel := context.WithTimeout(context.Background(), s.opts.timeout)
 	defer cancel()
 
-	req := &base.Test{}
+	req := &base.Client2ServerReq{}
 	err := proto.Unmarshal(frame.Data, req)
 	if err != nil {
 		return nil, err

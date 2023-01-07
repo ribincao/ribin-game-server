@@ -6,7 +6,7 @@ require (
 	github.com/gorilla/websocket v1.5.0
 	github.com/matoous/go-nanoid v1.5.0
 	github.com/natefinch/lumberjack v2.0.0+incompatible
-	github.com/ribincao/ribin-protocol v0.0.0-20221228125559-a71e1855400d
+	github.com/ribincao/ribin-protocol v0.0.0-20230107104254-90bb94133d47
 	go.uber.org/atomic v1.7.0
 	go.uber.org/zap v1.24.0
 	google.golang.org/protobuf v1.28.1
