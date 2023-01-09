@@ -8,7 +8,6 @@ import (
 	"time"
 )
 
-// Server defines a generic implementation interface for a specific Service
 type Server interface {
 	Serve()
 	Close()
@@ -19,7 +18,6 @@ type Server interface {
 	SetHandler(Handler)
 }
 
-// ServerType is the type of server
 type ServerType uint32
 
 const (
@@ -27,7 +25,6 @@ const (
 	FrameServer ServerType = 2
 )
 
-// NewServer creates a server
 func NewServer(serverType ServerType, opts ...ServerOption) Server {
 	var s Server
 	switch serverType {
