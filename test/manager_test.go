@@ -95,7 +95,7 @@ func TestRoomManager(t *testing.T) {
 		Id: "test",
 	}
 	manager.RoomMng.AddRoom(room)
-	r := manager.GetRoom[types.Room]("test")
+	r := manager.GetRoom[*TestRoom]("test")
 	fmt.Println("playerId:", r.GetId())
 }
 
@@ -110,6 +110,10 @@ func (p *TestPlayer) GetId() string {
 
 func (p *TestPlayer) GetName() string {
 	return p.Name
+}
+
+func (p *TestPlayer) EnterRoom(roomId string) {
+
 }
 
 func TestPlayerManager(t *testing.T) {
