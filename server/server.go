@@ -70,6 +70,12 @@ type ServerOptions struct {
 
 type ServerOption func(*ServerOptions)
 
+func WithAddress(address string) ServerOption {
+	return func(o *ServerOptions) {
+		o.address = address
+	}
+}
+
 func OpenFreePort(portBase int, num int) (net.Listener, int, error) {
 	random := rand.Intn(num)
 	for i := random; i < random+num; i++ {
