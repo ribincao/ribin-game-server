@@ -27,14 +27,23 @@ func (r *TestRoom) GetPlayer(playerId string) types.Player {
 }
 
 func (r *TestRoom) GetAllPlayers() []types.Player {
-	return nil
+	var players []types.Player
+	r.playerMap.Range(func(key interface{}, value interface{}) bool {
+		players = append(players, value.(types.Player))
+		return true
+	})
+	return players
 }
 
 func (r *TestRoom) AddPlayer(player types.Player) {
 	r.playerMap.Store(player.GetId(), player)
 }
 
-func TestRoomMethod(t *testing.T) {
+func (r *TestRoom) RemovePlayer(playerId string) {
+	r.playerMap.Delete(playerId)
+}
+
+func TestRoomAddPlayer(t *testing.T) {
 	room := &TestRoom{
 		Id: "test",
 	}
@@ -51,6 +60,36 @@ func TestRoomMethod(t *testing.T) {
 	fmt.Println("PlayerName:", p.GetName())
 }
 
+func TestRoomDeletePlayer(t *testing.T) {
+	room := &TestRoom{
+		Id: "test",
+	}
+	player1 := &TestPlayer{
+		Id:   "xxx",
+		Name: "ribincao",
+	}
+	player2 := &TestPlayer{
+		Id:   "yyy",
+		Name: "whale",
+	}
+	room.AddPlayer(player1)
+	room.AddPlayer(player2)
+	p := room.GetPlayer("xxx")
+	if p == nil {
+		fmt.Println("player not in room")
+		return
+	}
+	ps := room.GetAllPlayers()
+	for playerId, player := range ps {
+		fmt.Println("before playerId:", playerId, "PlayerName:", player.GetName())
+	}
+
+	room.RemovePlayer("yyy")
+	ps = room.GetAllPlayers()
+	for playerId, player := range ps {
+		fmt.Println("after playerId:", playerId, "PlayerName:", player.GetName())
+	}
+}
 func TestRoomManager(t *testing.T) {
 	room := &TestRoom{
 		Id: "test",

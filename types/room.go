@@ -5,4 +5,5 @@ type Room interface {
 	GetPlayer(playerID string) Player
 	GetAllPlayers() []Player
 	AddPlayer(Player)
+	RemovePlayer(playerId string)
 }
