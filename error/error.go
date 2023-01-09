@@ -11,6 +11,7 @@ const (
 
 	RoomUnexistErrorCode     = 10000
 	PlayerNotInRoomErrorCode = 10001
+	ParamsErrorCode          = 10002
 )
 
 const (
@@ -29,6 +30,8 @@ var (
 
 	RoomUnexistError     = New(RoomUnexistErrorCode, "room unexist")
 	PlayerNotInRoomError = New(PlayerNotInRoomErrorCode, "player not in room")
+	RoomIdParamError     = New(ParamsErrorCode, "roomid empty")
+	PlayerIdParamError   = New(ParamsErrorCode, "playerid empty")
 )
 
 type Error struct {
