@@ -45,6 +45,7 @@ func (s *roomServer) GetPort() string {
 
 func (s *roomServer) Serve() {
 	http.Serve(s.opts.listener, s)
+	logger.Info("Server Start, ", zap.String("Address", s.GetOpt().address))
 }
 
 func (s *roomServer) SetConnCloseCallback(closeFunc OnCloseFunc) {

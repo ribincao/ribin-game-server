@@ -18,6 +18,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/ribincao/ribin-protocol v0.0.0-20230107104254-90bb94133d47 h1:IxA3Z7yG+zycdBfhHz5DwmIpihlNtk+bqWwneWUX9Ag=
 github.com/ribincao/ribin-protocol v0.0.0-20230107104254-90bb94133d47/go.mod h1:EsLQAhZnHlKI58UpsiO9qhO3ZV40NS4R33hb2BGBDUg=
+github.com/ribincao/ribin-protocol v0.0.0-20230107104706-0430d95b9a54 h1:3KqVtYXrmpFYsfa19iU4G27pWdjpfqu05Z9jbi1/LMo=
+github.com/ribincao/ribin-protocol v0.0.0-20230107104706-0430d95b9a54/go.mod h1:EsLQAhZnHlKI58UpsiO9qhO3ZV40NS4R33hb2BGBDUg=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.8.0 h1:pSgiaMZlXftHpm5L7V1+rVB+AZJydKsMxsQBIJw4PKk=
