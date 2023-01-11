@@ -3,6 +3,7 @@ module github.com/ribincao/ribin-game-server
 go 1.19
 
 require (
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gorilla/websocket v1.5.0
 	github.com/matoous/go-nanoid v1.5.0
 	github.com/natefinch/lumberjack v2.0.0+incompatible
@@ -15,7 +16,9 @@ require (
 
 require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
-	github.com/go-redis/redis v6.15.9+incompatible // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
+	github.com/onsi/ginkgo v1.16.5 // indirect
+	github.com/onsi/gomega v1.24.2 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )

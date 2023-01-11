@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/go-redis/redis"
+	"github.com/ribincao/ribin-game-server/db"
 )
 
 func TestRedisConn(t *testing.T) {
@@ -40,4 +41,10 @@ func TestRedisGet(t *testing.T) {
 		panic(err)
 	}
 	fmt.Println("key", val)
+}
+
+func TestRedisInit(t *testing.T) {
+	db.InitDB()
+	val, err := db.GlobalDB.Test()
+	fmt.Println(val, err)
 }
