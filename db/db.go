@@ -1,5 +1,1 @@
 package db
-
-func initRedis() {
-
-}
