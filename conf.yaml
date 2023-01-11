@@ -3,6 +3,7 @@ serviceConfig:
 dbConfig:
   redisAddr: "localhost:6379"
   redisPasswd: ""
+  redisMode: "client"
 logConfig:
   logLevel: debug
   logPath: server.log

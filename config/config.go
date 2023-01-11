@@ -21,6 +21,7 @@ type ServiceConfig struct {
 type DbConfig struct {
 	RedisAddr   string `yaml:"redisAddr"`
 	RedisPasswd string `yaml:"redisPasswd"`
+	RedisMode   string `yaml:"redisMode"`
 }
 
 type LogConfig struct {

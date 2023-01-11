@@ -26,7 +26,7 @@ func NewRedisDB() *RedisClientDB {
 	return &RedisClientDB{}
 }
 
-func (rd *RedisClientDB) Test() (string, error) {
+func (rc *RedisClientDB) Test() (string, error) {
 	openRedisDB.Do(func() {
 		initRedis()
 	})
