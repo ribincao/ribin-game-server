@@ -1,5 +1,8 @@
 serviceConfig:
   env: local
+dbConfig:
+  redisAddr: "localhost:6379"
+  redisPasswd: ""
 logConfig:
   logLevel: debug
   logPath: server.log

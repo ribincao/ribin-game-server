@@ -11,10 +11,16 @@ var GlobalConfig = &Config{}
 type Config struct {
 	ServiceConfig *ServiceConfig `yaml:"serviceConfig"`
 	LogConfig     *LogConfig     `yaml:"logConfig"`
+	DbConfig      *DbConfig      `yaml:"dbConfig"`
 }
 
 type ServiceConfig struct {
 	Env string `yaml:"env"`
+}
+
+type DbConfig struct {
+	RedisAddr   string `yaml:"redisAddr"`
+	RedisPasswd string `yaml:"redisPasswd"`
 }
 
 type LogConfig struct {

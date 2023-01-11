@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	config "github.com/ribincao/ribin-game-server/config"
+	"github.com/ribincao/ribin-game-server/config"
 )
 
 func TestConfig(t *testing.T) {

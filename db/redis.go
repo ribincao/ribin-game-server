@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/go-redis/redis"
+	"github.com/ribincao/ribin-game-server/config"
 )
 
 var (
@@ -15,9 +16,9 @@ type RedisClientDB struct{}
 
 func initRedis() {
 	redisClient = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     config.GlobalConfig.DbConfig.RedisAddr,
+		Password: "",
+		DB:       0,
 	})
 }
 

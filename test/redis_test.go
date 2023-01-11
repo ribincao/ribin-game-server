@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/go-redis/redis"
+	"github.com/ribincao/ribin-game-server/config"
 	"github.com/ribincao/ribin-game-server/db"
 )
 
@@ -44,6 +45,7 @@ func TestRedisGet(t *testing.T) {
 }
 
 func TestRedisInit(t *testing.T) {
+	config.ParseConf("../conf.yaml", config.GlobalConfig)
 	db.InitDB()
 	val, err := db.GlobalDB.Test()
 	fmt.Println(val, err)
