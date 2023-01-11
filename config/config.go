@@ -22,6 +22,9 @@ type DbConfig struct {
 	RedisAddr   string `yaml:"redisAddr"`
 	RedisPasswd string `yaml:"redisPasswd"`
 	RedisMode   string `yaml:"redisMode"`
+	EsUrl       string `yaml:"esUrl"`
+	EsUsername  string `yaml:"esUsername"`
+	EsPasswd    string `yaml:"esPasswd"`
 }
 
 type LogConfig struct {

@@ -4,6 +4,9 @@ dbConfig:
   redisAddr: "localhost:6379"
   redisPasswd: ""
   redisMode: "client"
+  esUrl: "localhost"
+  esUsername: ""
+  esPasswd: ""
 logConfig:
   logLevel: debug
   logPath: server.log

@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-redis/redis"
 	"github.com/ribincao/ribin-game-server/config"
+	"github.com/ribincao/ribin-game-server/logger"
 )
 
 var (
@@ -19,6 +20,7 @@ func initRedisCluster() {
 		Addrs: []string{config.GlobalConfig.DbConfig.RedisAddr},
 	}
 	redisClusterClient = redis.NewClusterClient(opts)
+	logger.Info("[Engine-Tool] Redis Cluster Client Initialized!")
 }
 
 func NewRedisClusterDB() *RedisClusterClientDB {
