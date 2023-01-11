@@ -15,6 +15,7 @@ require (
 
 require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
+	github.com/go-redis/redis v6.15.9+incompatible // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )
