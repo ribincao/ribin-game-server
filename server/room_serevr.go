@@ -13,7 +13,6 @@ import (
 	"github.com/ribincao/ribin-game-server/utils"
 	"github.com/ribincao/ribin-protocol/base"
 	"go.uber.org/zap"
-	"google.golang.org/protobuf/proto"
 )
 
 type OnCloseFunc func(conn *network.WrapConnection)
@@ -27,6 +26,8 @@ type roomServer struct {
 	ConnCloseCallback   OnCloseFunc
 	ConnConnectCallback OnConnectFunc
 	MessageHandler      Handler
+	CodeType            string
+	MarshalType         string
 }
 
 func (s *roomServer) Close() {
@@ -41,6 +42,14 @@ func (s *roomServer) GetPort() string {
 		return ""
 	}
 	return strings.Split(s.opts.address, ":")[1]
+}
+
+func (s *roomServer) SetCodecType(codecType string) {
+	s.CodeType = codecType
+}
+
+func (s *roomServer) SetMarshalType(marshalType string) {
+	s.MarshalType = marshalType
 }
 
 func (s *roomServer) Serve() {
@@ -87,7 +96,7 @@ func (s *roomServer) GetOpt() *ServerOptions {
 }
 
 func (s *roomServer) OnMessage(c *network.WrapConnection, packet *network.Message) bool {
-	frame, err := codec.DefaultCodec.Decode(packet.Data)
+	frame, err := codec.GetCodec(s.CodeType).Decode(packet.Data)
 	if err != nil {
 		return false
 	}
@@ -98,7 +107,7 @@ func (s *roomServer) OnMessage(c *network.WrapConnection, packet *network.Messag
 		}
 	}
 
-	rspbuf, _ := codec.DefaultCodec.Encode(data, codec.RPC)
+	rspbuf, _ := codec.GetCodec(s.CodeType).Encode(data, codec.RPC)
 	err = c.Write(packet.MsgType, rspbuf)
 	return err == nil
 }
@@ -108,13 +117,13 @@ func (s *roomServer) handleFrame(conn *network.WrapConnection, frame *codec.Fram
 	defer cancel()
 
 	req := &base.Client2ServerReq{}
-	err := proto.Unmarshal(frame.Data, req)
+	err := codec.GetMarshaller(s.MarshalType).Unmarshal(frame.Data, req)
 	if err != nil {
 		return nil, err
 	}
 
 	rsp, err := s.MessageHandler(ctx, conn, req)
-	rspbuf, _ := proto.Marshal(rsp)
+	rspbuf, _ := codec.GetMarshaller(s.MarshalType).Marshal(rsp)
 	if err != nil {
 		return rspbuf, err
 	}
