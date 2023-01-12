@@ -21,7 +21,7 @@ type Handler func(ctx context.Context, conn *network.WrapConnection, req *base.C
 
 var upgrader = websocket.Upgrader{}
 
-type roomServer struct {
+type RoomServer struct {
 	opts                *ServerOptions
 	ConnCloseCallback   OnCloseFunc
 	ConnConnectCallback OnConnectFunc
@@ -30,42 +30,42 @@ type roomServer struct {
 	MarshalType         string
 }
 
-func (s *roomServer) Close() {
+func (s *RoomServer) Close() {
 }
 
-func (s *roomServer) SetHandler(handler Handler) {
+func (s *RoomServer) SetHandler(handler Handler) {
 	s.MessageHandler = handler
 }
 
-func (s *roomServer) GetPort() string {
+func (s *RoomServer) GetPort() string {
 	if s.opts.address == "" {
 		return ""
 	}
 	return strings.Split(s.opts.address, ":")[1]
 }
 
-func (s *roomServer) SetCodecType(codecType string) {
+func (s *RoomServer) SetCodecType(codecType string) {
 	s.CodeType = codecType
 }
 
-func (s *roomServer) SetMarshalType(marshalType string) {
+func (s *RoomServer) SetMarshalType(marshalType string) {
 	s.MarshalType = marshalType
 }
 
-func (s *roomServer) Serve() {
+func (s *RoomServer) Serve() {
 	http.Serve(s.opts.listener, s)
 	logger.Info("Server Start, ", zap.String("Address", s.GetOpt().address))
 }
 
-func (s *roomServer) SetConnCloseCallback(closeFunc OnCloseFunc) {
+func (s *RoomServer) SetConnCloseCallback(closeFunc OnCloseFunc) {
 	s.ConnCloseCallback = closeFunc
 }
 
-func (s *roomServer) SetConnConnectCallback(connectFunc OnConnectFunc) {
+func (s *RoomServer) SetConnConnectCallback(connectFunc OnConnectFunc) {
 	s.ConnConnectCallback = connectFunc
 }
 
-func (s *roomServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (s *RoomServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		return
@@ -76,14 +76,14 @@ func (s *roomServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (s *roomServer) OnConnect(conn *network.WrapConnection) bool {
+func (s *RoomServer) OnConnect(conn *network.WrapConnection) bool {
 	if s.ConnConnectCallback == nil {
 		return true
 	}
 	return s.ConnConnectCallback(conn)
 }
 
-func (s *roomServer) OnClose(conn *network.WrapConnection) {
+func (s *RoomServer) OnClose(conn *network.WrapConnection) {
 	if s.ConnCloseCallback == nil {
 		conn.Close()
 		return
@@ -91,11 +91,11 @@ func (s *roomServer) OnClose(conn *network.WrapConnection) {
 	s.ConnCloseCallback(conn)
 }
 
-func (s *roomServer) GetOpt() *ServerOptions {
+func (s *RoomServer) GetOpt() *ServerOptions {
 	return s.opts
 }
 
-func (s *roomServer) OnMessage(c *network.WrapConnection, packet *network.Message) bool {
+func (s *RoomServer) OnMessage(c *network.WrapConnection, packet *network.Message) bool {
 	frame, err := codec.GetCodec(s.CodeType).Decode(packet.Data)
 	if err != nil {
 		return false
@@ -112,7 +112,7 @@ func (s *roomServer) OnMessage(c *network.WrapConnection, packet *network.Messag
 	return err == nil
 }
 
-func (s *roomServer) handleFrame(conn *network.WrapConnection, frame *codec.Frame) ([]byte, error) {
+func (s *RoomServer) handleFrame(conn *network.WrapConnection, frame *codec.Frame) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), s.opts.timeout)
 	defer cancel()
 

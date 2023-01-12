@@ -21,15 +21,15 @@ type Server interface {
 type ServerType uint32
 
 const (
-	RoomServer  ServerType = 1
-	FrameServer ServerType = 2
+	RoomServerType  ServerType = 1
+	FrameServerType ServerType = 2
 )
 
-func NewServer(serverType ServerType, opts ...ServerOption) Server {
+func NewServer[T Server](serverType ServerType, opts ...ServerOption) (t T) {
 	var s Server
 	switch serverType {
-	case RoomServer:
-		s = &roomServer{
+	case RoomServerType:
+		s = &RoomServer{
 			opts: &ServerOptions{
 				timeout: 10 * time.Second,
 			},
@@ -48,14 +48,14 @@ func NewServer(serverType ServerType, opts ...ServerOption) Server {
 			panic(err)
 		}
 		server.GetOpt().listener = listener
-		return s
+		return s.(T)
 	}
 
 	if listener, port, err := OpenFreePort(10000, 1000); err == nil {
 		server.GetOpt().listener = listener
 		server.GetOpt().address = fmt.Sprintf(":%d", port)
 	}
-	return s
+	return s.(T)
 }
 
 type ServerOptions struct {
